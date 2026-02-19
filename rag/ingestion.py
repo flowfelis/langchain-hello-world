@@ -1,12 +1,12 @@
 import os
 
 from dotenv import load_dotenv
-from langchain_core import embeddings
 
 load_dotenv()
 
 from langchain_community.document_loaders import TextLoader
 from langchain_openai import OpenAIEmbeddings
+import math
 from langchain_pinecone import PineconeVectorStore
 from langchain_text_splitters import CharacterTextSplitter
 
@@ -20,7 +20,7 @@ if __name__ == "__main__":
     texts = text_splitter.split_documents(document)
     print(f"created {len(texts)} chunks")
 
-    embeddings = OpenAIEmbeddings()
+    embeddings = OpenAIEmbeddings(api_key=os.getenv("OPENAI_API_KEY"))
 
     print("Ingesting...")
     PineconeVectorStore.from_documents(
